@@ -1,0 +1,112 @@
+﻿@model VisitorStatisticsViewModel
+
+@{
+    ViewData["Title"] = "Visitor Statistics";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mt-5">
+    <div class="col-12 col-lg-6 mb-3">
+        <h3>Totals</h3>
+        <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center text-white bg-info p-3">
+                    <div class="=card-body">
+                        <h5 class="card-title">Total Hosts</h5>
+                        <p class="card-text h1">@Model.TotalHosts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center text-white bg-warning p-3">
+                    <div class="=card-body">
+                        <h5 class="card-title">Total Visitors</h5>
+                        <p class="card-text h1">@Model.TotalVisitors</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4 mb-3">
+                <div class="card text-center text-white bg-success p-3">
+                    <div class="=card-body">
+                        <h5 class="card-title">Total Visits</h5>
+                        <p class="card-text h1">@Model.TotalVisits</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+        <h3>Campus Visitor Stats</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Campus</th>
+                        <th scope="col">Buildings</th>
+                        <th scope="col">Total visitors</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Campus campus in Model.Campuses)
+                    {
+                        <tr>
+                            <td>@campus.CampusName</td>
+                            <td>@campus.Buildings.Count</td>
+                            <td>@campus.Buildings.Sum(b => b.Visits.Count)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-12 col-lg-6 mb-3">
+        <h3>TOP 10 Hosts</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">visitors</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (StaffMember host in Model.Hosts)
+                    {
+                        <tr>
+                            <td>@host.FirstName @host.LastName</td>
+                            <td>@host.EmailAddress</td>
+                            <td>@host.Visits.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>      
+    </div>
+    <div class="col-12 col-lg-6 mb-3">
+        <h3>TOP 10 Building Visitor Counts</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Building</th>
+                        <th scope="col">Campus</th>
+                        <th scope="col">Total visitors</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Building building in Model.Buildings)
+                    {
+                        <tr>
+                            <td>@building.BuildingName.</td>
+                            <td>@building.Campus.CampusName</td>
+                            <td>@building.Visits.Count</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

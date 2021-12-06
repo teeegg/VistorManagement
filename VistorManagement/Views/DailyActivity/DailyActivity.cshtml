@@ -1,0 +1,98 @@
+﻿@model DailyActivityViewModel
+
+@{
+    ViewData["Title"] = "Daily Activity";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mt-5">
+    <h3>Check-ins</h3>
+    <div class="table-responsive">
+        <table class="table p-3">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Host</th>
+                    <th scope="col">Visit Date</th>
+                    <th scope="col">Building</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (VisitViewModel visit in Model.CheckIns)
+                {
+                    <tr>
+                        <td>@visit.Name</td>
+                        <td>@visit.Company</td>
+                        <td>@visit.Host</td>
+                        <td>@visit.VisitDate.ToString()</td>
+                    
+                        <td>@visit.BuildingName</td>
+                        @if (visit.CheckedIn)
+                        {
+                            <td>&emsp;</td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="btn btn-sm btn-primary" asp-action="CheckIn"
+                                   asp-route-id="@visit.VisitId">Check In</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>     
+</div>
+
+<div class="row mt-5">
+    <h3>Check-outs</h3>
+    <div class="table-responsive p-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Company</th>
+                    <th scope="col">Host</th>
+                    <th scope="col">Checked In</th>
+                    <th scope="col">Checked Out</th>
+                    <th scope="col">Building</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (VisitViewModel visit in Model.CheckOuts)
+                {
+                    <tr>
+                        <td>@visit.Name</td>
+                        <td>@visit.Company</td>
+                        <td>@visit.Host</td>
+                        <td>@visit.Starts</td>
+                        @if (visit.CheckedOut)
+                        {
+                            <td>@visit.Ends.ToString()</td>
+                        }
+                        else
+                        {
+                            <td>-</td>
+                        }
+                        <td>@visit.BuildingName</td>
+                        @if (visit.CheckedOut)
+                        {
+                            <td>&emsp;</td>
+                        }
+                        else
+                        {
+                            <td>
+                                <a class="btn btn-sm btn-primary" asp-action="CheckOut"
+                                   asp-route-id="@visit.VisitId">Check Out</a>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>  
+</div>

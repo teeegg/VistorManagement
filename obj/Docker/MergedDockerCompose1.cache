@@ -1,0 +1,46 @@
+services:
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Echo1234
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  vistormanagement:
+    build:
+      context: /Users/izzy/Desktop/VistorManagement/VistorManagement
+      dockerfile: VistorManagement/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: VistorManagement
+      target: base
+    container_name: VistorManagement
+    depends_on:
+      db:
+        condition: service_started
+    entrypoint: tail -f /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: '1'
+      NUGET_FALLBACK_PACKAGES: /root/.nuget/fallbackpackages
+    image: vistormanagement:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages
+        --additionalProbingPath /root/.nuget/fallbackpackages  "/app/bin/Debug/net5.0/VistorManagement.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    ports:
+    - target: 80
+    - target: 443
+    tty: true
+    volumes:
+    - /Users/izzy/Desktop/VistorManagement/VistorManagement/VistorManagement:/app:rw
+    - /Users/izzy/vsdbg/vs2017u5:/remote_debugger:rw
+    - /Users/izzy/.aspnet/https:/root/.aspnet/https:ro
+    - /Users/izzy/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+    - /usr/local/share/dotnet/sdk/NuGetFallbackFolder:/root/.nuget/fallbackpackages:ro
+    - /Users/izzy/.nuget/packages:/root/.nuget/packages:ro
+    - /Users/izzy/Desktop/VistorManagement/VistorManagement:/src:rw
+version: '3.4'

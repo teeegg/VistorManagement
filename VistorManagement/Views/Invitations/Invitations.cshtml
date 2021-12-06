@@ -1,0 +1,89 @@
+﻿@model InvitationsViewModel
+
+@{
+    ViewData["Title"] = "Invitations";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mt-5 mb-5">
+    <div class="col-12 col-md-4 col-lg-2 mb-3">
+        <div class="card text-white bg-success text-center p-3">
+            <div class="=card-body">
+                <h5 class="card-title">Today</h5>
+                <p class="card-text h1">@Model.Today</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2 mb-3">
+        <div class="card text-white bg-warning text-center p-3">
+            <div class="=card-body">
+                <h5 class="card-title">Tomorrow</h5>
+                <p class="card-text h1">@Model.Tomorrow</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-2 mb-3">
+        <div class="card text-white bg-info text-center p-3">
+            <div class="=card-body">
+                <h5 class="card-title">Next 7 days</h5>
+                <p class="card-text h1 font">@Model.Next7Days</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3 mb-3">
+        <div class="card text-center text-white bg-danger p-3">
+            <div class="=card-body">
+                <h5 class="card-title">Expired</h5>
+                <p class="card-text h1">@Model.Expired</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 col-lg-3 mb-3">
+        <div class="card text-center bg-light p-3">
+            <div class="=card-body">
+                <h5 class="card-title">Total Visits</h5>
+                <p class="card-text h1">@Model.TotalVisits</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Company</th>
+                <th scope="col">Host</th>
+                <th scope="col">Starts</th>
+                <th scope="col">Ends</th>
+                <th scope="col">Building Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (VisitViewModel visit in Model.Visits)
+            {
+                <tr>
+                    <td>@visit.Name</td>
+                    <td>@visit.Company</td>
+                    <td>@visit.Host</td>
+                    <td>@visit.Starts.ToString()</td>
+                    @if (visit.Ends.HasValue)
+                    {
+                        <td>@visit.Ends.Value.ToString()</td>
+                    }
+                    else
+                    {
+                        <td>-</td>
+                    }
+
+                    <td>@visit.BuildingName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row p-3 text-right">
+   <a class="btn btn-primary pl-5 pr-5" asp-controller="Invitations" asp-action="Create">Invite +</a>
+</div>
+

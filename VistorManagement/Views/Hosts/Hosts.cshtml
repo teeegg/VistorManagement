@@ -1,0 +1,45 @@
+﻿@model HostsViewModel
+
+@{
+    ViewData["Title"] = "Hosts";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div class="row mb-3">
+    <div class="col-12 col-md-4">
+        <select id="campuseSelect" asp-for="CampusId" asp-items="Model.Campuses" onchange="FilterByCampus(this)"
+                class="form-select form-select-lg p-2 mb-3 w-100" aria-label=".form-select-lg">
+        </select>
+    </div>
+    <div class="col-12 col-md-4">
+        <select asp-for="BuildingId" asp-items="Model.Buildings" onchange="FilterByBuilding(this)"
+                class="form-select form-select-lg p-2 mb-3 w-100" aria-label=".form-select-lg">
+        </select>
+    </div>
+</div>
+<div class="row">
+    <h3>Staff Members</h3>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Extension</th>
+                <th scope="col">Visitor Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (StaffMember staff in Model.StaffMembers)
+            {
+                <tr>
+                    <td>@staff.FirstName @staff.LastName</td>
+                    <td>@staff.EmailAddress</td>
+                    <td>@staff.Extension</td>
+                    <td>@staff.Visits.Count</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

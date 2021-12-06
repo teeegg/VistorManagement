@@ -1,0 +1,24 @@
+services:
+  db:
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: Echo1234
+    image: mcr.microsoft.com/mssql/server:2017-latest
+  vistormanagement:
+    build:
+      context: /Users/izzy/Desktop/VistorManagement/VistorManagement
+      dockerfile: VistorManagement/Dockerfile
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+    image: vistormanagement
+    ports:
+    - target: 80
+    - target: 443
+    volumes:
+    - /Users/izzy/.aspnet/https:/root/.aspnet/https:ro
+    - /Users/izzy/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+version: '3.4'

@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Echo1234
+
+  vistormanagement:
+    image: ${DOCKER_REGISTRY-}vistormanagement
+    build:
+      context: .
+      dockerfile: VistorManagement/Dockerfile
+    depends_on:
+      - db
+

@@ -1,0 +1,28 @@
+﻿@model EditVisitViewModel
+
+@{
+    ViewData["Title"] = "Invite";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form asp-controller="Invitations" asp-action="Create">
+    <div class="form-group">
+        <label asp-for="Visit.VisitorId"></label>
+        <select class="form-select form-select-lg p-2 mb-3" aria-label=".form-select-lg"
+                asp-for="Visit.VisitorId" asp-items="Model.Visitors"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Visit.HostSNumber"></label>
+        <select class="form-select form-select-lg p-2 mb-3" aria-label=".form-select-lg"
+                asp-for="Visit.HostSNumber" asp-items="Model.StaffMembers"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Visit.BuildingId"></label>
+        <select class="form-select form-select-lg p-2 mb-3" aria-label=".form-select-lg"
+                asp-for="Visit.BuildingId" asp-items="Model.Buildings"></select>
+    </div>
+    <div class="form-group">
+        <input asp-for="Visit.VisitDate" />
+    </div>
+    <button class="btn btn-primary">Invite</button>
+</form>
